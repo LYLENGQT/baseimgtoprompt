@@ -45,4 +45,9 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+const container = document.getElementById("root")!;
+const w = window as any;
+if (!w.__root) {
+  w.__root = createRoot(container);
+}
+w.__root.render(<App />);
