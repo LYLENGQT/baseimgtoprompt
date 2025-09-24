@@ -39,6 +39,7 @@ export default function Header() {
           {navLink({ to: "/", label: "Home" })}
           {navLink({ to: "/how-it-works", label: "How It Works" })}
           {navLink({ to: "/about", label: "About" })}
+          {navLink({ to: "/history", label: "History" })}
         </nav>
       </div>
     </header>

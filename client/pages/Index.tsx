@@ -5,6 +5,7 @@ import ImagePreview from "@/components/ImagePreview";
 import ResultsSection from "@/components/ResultsSection";
 import { compressImage } from "@/lib/image";
 import { handleImageSubmission } from "@/lib/webhook";
+import { addHistoryEntry } from "@/lib/history";
 import { toast } from "sonner";
 import { Loader2, X } from "lucide-react";
 
@@ -72,6 +73,10 @@ export default function Index() {
         if (out.length > 4) out.length = 4;
       }
       setPrompts(out);
+      // Persist to history with the original file (not compressed, for better thumbnail quality)
+      try {
+        await addHistoryEntry({ file, prompts: out });
+      } catch {}
       toast.success("Prompts generated successfully");
     } catch (e: any) {
       if (e?.name === "AbortError") {
