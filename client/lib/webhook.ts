@@ -2,17 +2,22 @@ export const WEBHOOK_URL: string | undefined = import.meta.env.VITE_WEBHOOK_URL 
   | string
   | undefined;
 
-export interface WebhookPromptItem {
-  prompt: string;
-}
-export interface WebhookResponse {
-  input: WebhookPromptItem[];
+// Types for known response shapes
+export interface LegacyWebhookPromptItem { prompt: string }
+export interface LegacyWebhookResponse { input: LegacyWebhookPromptItem[] }
+
+export interface VariationItem {
+  model?: string;
+  task_type?: string;
+  variation?: number;
+  input?: { prompt?: string; [k: string]: unknown };
+  [k: string]: unknown;
 }
 
 export async function handleImageSubmission(
   imageFile: File,
   opts?: { signal?: AbortSignal },
-): Promise<WebhookResponse> {
+): Promise<string[]> {
   if (!WEBHOOK_URL || WEBHOOK_URL.trim().length === 0) {
     throw new Error(
       "Webhook URL is not configured. Set VITE_WEBHOOK_URL in your environment.",
@@ -32,16 +37,33 @@ export async function handleImageSubmission(
     throw new Error(`Upload failed with status ${res.status}`);
   }
 
+  let data: unknown;
   if (contentType.includes("application/json")) {
-    const json = (await res.json()) as WebhookResponse;
-    return json;
+    data = await res.json();
+  } else {
+    const text = await res.text();
+    try {
+      data = JSON.parse(text);
+    } catch {
+      throw new Error("Unexpected response from webhook");
+    }
   }
 
-  const text = await res.text();
+  // Normalize to prompts[]
   try {
-    const parsed = JSON.parse(text) as WebhookResponse;
-    return parsed;
+    if (Array.isArray(data)) {
+      const arr = data as VariationItem[];
+      return arr.map((it) => it?.input?.prompt).filter((p): p is string => !!p);
+    }
+    const obj = data as LegacyWebhookResponse | Record<string, any>;
+    if (Array.isArray((obj as LegacyWebhookResponse).input)) {
+      return (obj as LegacyWebhookResponse).input
+        .map((x) => x?.prompt)
+        .filter((p): p is string => !!p);
+    }
   } catch {
-    throw new Error("Unexpected response from webhook");
+    // fallthrough
   }
+
+  throw new Error("Unexpected response from webhook");
 }
