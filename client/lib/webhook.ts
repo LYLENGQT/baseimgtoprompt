@@ -1,5 +1,8 @@
-export const WEBHOOK_URL: string | undefined = import.meta.env
-  .VITE_WEBHOOK_URL as string | undefined;
+const DEFAULT_WEBHOOK_URL =
+  "https://n8n.srv931715.hstgr.cloud/webhook/baseimagetoprompt";
+export const WEBHOOK_URL: string =
+  ((import.meta as any)?.env?.VITE_WEBHOOK_URL as string | undefined) ||
+  DEFAULT_WEBHOOK_URL;
 
 type LegacyWebhookPromptItem = { prompt: string };
 type LegacyWebhookResponse = { input: LegacyWebhookPromptItem[] };
@@ -34,11 +37,7 @@ export async function handleImageSubmission(
   imageFile: File,
   opts?: { signal?: AbortSignal },
 ): Promise<string[]> {
-  if (!WEBHOOK_URL || WEBHOOK_URL.trim().length === 0) {
-    throw new Error(
-      "Webhook URL is not configured. Set VITE_WEBHOOK_URL in your environment.",
-    );
-  }
+  // WEBHOOK_URL is always set via env or default
 
   const formData = new FormData();
   formData.append("Base_Image", imageFile);

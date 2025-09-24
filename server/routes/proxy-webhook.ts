@@ -1,7 +1,12 @@
 import { RequestHandler } from "express";
+import { Readable } from "stream";
+
+const DEFAULT_WEBHOOK_URL =
+  "https://n8n.srv931715.hstgr.cloud/webhook/baseimagetoprompt";
 
 export const handleProxyWebhook: RequestHandler = (req, res) => {
-  const webhook = process.env.VITE_WEBHOOK_URL || process.env.WEBHOOK_URL;
+  const webhook =
+    process.env.VITE_WEBHOOK_URL || process.env.WEBHOOK_URL || DEFAULT_WEBHOOK_URL;
   if (!webhook) {
     return res.status(500).json({ error: "Webhook not configured on server." });
   }
@@ -13,10 +18,12 @@ export const handleProxyWebhook: RequestHandler = (req, res) => {
   if (typeof ct === "string") headers["content-type"] = ct;
 
   // Use global fetch available in modern Node to proxy the request stream
+  const streamBody = Readable.toWeb(req as any) as unknown as ReadableStream;
+
   fetch(webhook, {
     method: "POST",
     headers,
-    body: req,
+    body: streamBody,
   })
     .then(async (r) => {
       const contentType = r.headers.get("content-type") || "";
