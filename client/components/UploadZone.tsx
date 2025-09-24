@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { UploadCloud, ImagePlus } from "lucide-react";
+import { UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"]; // jpg, png, webp
