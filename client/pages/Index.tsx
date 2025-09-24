@@ -4,9 +4,9 @@ import UploadZone from "@/components/UploadZone";
 import ImagePreview from "@/components/ImagePreview";
 import ResultsSection from "@/components/ResultsSection";
 import { compressImage } from "@/lib/image";
-import { handleImageSubmission, type WebhookResponse } from "@/lib/webhook";
+import { handleImageSubmission } from "@/lib/webhook";
 import { toast } from "sonner";
-import { Loader2, Check, X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 
 export default function Index() {
   const [file, setFile] = useState<File | null>(null);
@@ -64,12 +64,10 @@ export default function Index() {
     abortRef.current = controller;
     try {
       const compressed = await compressImage(file);
-      const res: WebhookResponse = await handleImageSubmission(compressed, {
+      const out = await handleImageSubmission(compressed, {
         signal: controller.signal,
       });
-      const out = res.input?.map((x) => x.prompt).filter(Boolean) ?? [];
       if (out.length !== 4) {
-        // Ensure we always display 4 cards; duplicate if fewer
         while (out.length < 4) out.push(out[out.length - 1] || "");
         if (out.length > 4) out.length = 4;
       }
