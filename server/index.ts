@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import { handleProxyWebhook } from "./routes/proxy-webhook";
 
 export function createServer() {
   const app = express();
@@ -18,6 +19,8 @@ export function createServer() {
   });
 
   app.get("/api/demo", handleDemo);
+  // Proxy endpoint to forward multipart uploads to an external webhook (avoids CORS issues)
+  app.post("/api/proxy-webhook", handleProxyWebhook);
 
   return app;
 }
