@@ -6,9 +6,15 @@ export default function Footer() {
       <div className="container mx-auto py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-foreground/70">
         <p>Powered by AI • Fashion Photography Expert System</p>
         <nav className="flex items-center gap-4">
-          <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
-          <Link to="/terms" className="hover:text-foreground">Terms</Link>
-          <Link to="/support" className="hover:text-foreground">Support</Link>
+          <Link to="/privacy" className="hover:text-foreground">
+            Privacy
+          </Link>
+          <Link to="/terms" className="hover:text-foreground">
+            Terms
+          </Link>
+          <Link to="/support" className="hover:text-foreground">
+            Support
+          </Link>
         </nav>
       </div>
     </footer>

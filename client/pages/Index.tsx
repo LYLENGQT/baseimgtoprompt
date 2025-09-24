@@ -97,8 +97,12 @@ export default function Index() {
     <div className="container mx-auto py-10">
       <section className="mb-10">
         <div className="max-w-3xl space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">AI Fashion Prompt Generator</h1>
-          <p className="text-foreground/80 text-lg">Transform your fashion images into professional photography prompts</p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+            AI Fashion Prompt Generator
+          </h1>
+          <p className="text-foreground/80 text-lg">
+            Transform your fashion images into professional photography prompts
+          </p>
         </div>
       </section>
 
@@ -114,12 +118,19 @@ export default function Index() {
         <div className="space-y-6">
           {!prompts && (
             <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
-              <h2 className="text-lg font-semibold text-foreground mb-2">Get Started</h2>
+              <h2 className="text-lg font-semibold text-foreground mb-2">
+                Get Started
+              </h2>
               <p className="text-sm text-foreground/70 mb-4">
-                Upload a JPG, PNG, or WEBP image up to 10MB. Then click Generate to receive 4 detailed fashion photography prompts.
+                Upload a JPG, PNG, or WEBP image up to 10MB. Then click Generate
+                to receive 4 detailed fashion photography prompts.
               </p>
               <div className="flex items-center gap-3">
-                <Button onClick={handleGenerate} disabled={!file || isLoading} className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                <Button
+                  onClick={handleGenerate}
+                  disabled={!file || isLoading}
+                  className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                >
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 animate-spin" /> Generating...
@@ -134,7 +145,9 @@ export default function Index() {
                   </Button>
                 )}
                 {file && !isLoading && (
-                  <Button variant="ghost" onClick={resetAll}>Try Another Image</Button>
+                  <Button variant="ghost" onClick={resetAll}>
+                    Try Another Image
+                  </Button>
                 )}
               </div>
               <div className="mt-4 text-sm text-foreground/70">

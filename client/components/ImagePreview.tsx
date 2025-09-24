@@ -7,7 +7,11 @@ interface ImagePreviewProps {
   onChangeImage: () => void;
 }
 
-export default function ImagePreview({ src, alt = "Uploaded fashion image preview", onChangeImage }: ImagePreviewProps) {
+export default function ImagePreview({
+  src,
+  alt = "Uploaded fashion image preview",
+  onChangeImage,
+}: ImagePreviewProps) {
   return (
     <div className="relative w-full max-w-[420px]">
       <img

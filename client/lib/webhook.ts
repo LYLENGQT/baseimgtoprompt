@@ -1,6 +1,5 @@
-export const WEBHOOK_URL: string | undefined = import.meta.env.VITE_WEBHOOK_URL as
-  | string
-  | undefined;
+export const WEBHOOK_URL: string | undefined = import.meta.env
+  .VITE_WEBHOOK_URL as string | undefined;
 
 type LegacyWebhookPromptItem = { prompt: string };
 type LegacyWebhookResponse = { input: LegacyWebhookPromptItem[] };
@@ -23,7 +22,9 @@ async function normalizeToPrompts(data: unknown): Promise<string[]> {
   if (typeof data === "object") {
     const obj = data as any;
     if (Array.isArray(obj.input)) {
-      return obj.input.map((x: any) => x?.prompt).filter((p: any): p is string => typeof p === "string");
+      return obj.input
+        .map((x: any) => x?.prompt)
+        .filter((p: any): p is string => typeof p === "string");
     }
   }
   return [];
@@ -34,7 +35,9 @@ export async function handleImageSubmission(
   opts?: { signal?: AbortSignal },
 ): Promise<string[]> {
   if (!WEBHOOK_URL || WEBHOOK_URL.trim().length === 0) {
-    throw new Error("Webhook URL is not configured. Set VITE_WEBHOOK_URL in your environment.");
+    throw new Error(
+      "Webhook URL is not configured. Set VITE_WEBHOOK_URL in your environment.",
+    );
   }
 
   const formData = new FormData();
@@ -68,7 +71,10 @@ export async function handleImageSubmission(
     const prompts = await normalizeToPrompts(data);
     if (prompts.length > 0) return prompts;
   } catch (err) {
-    console.warn("Direct webhook POST failed, falling back to server proxy:", err);
+    console.warn(
+      "Direct webhook POST failed, falling back to server proxy:",
+      err,
+    );
   }
 
   // Fallback: proxy through our server to avoid CORS/network issues
@@ -96,6 +102,7 @@ export async function handleImageSubmission(
   }
 
   const prompts = await normalizeToPrompts(proxyData);
-  if (prompts.length === 0) throw new Error("Unexpected response from webhook/proxy");
+  if (prompts.length === 0)
+    throw new Error("Unexpected response from webhook/proxy");
   return prompts;
 }

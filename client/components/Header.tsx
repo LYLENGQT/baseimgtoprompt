@@ -27,8 +27,12 @@ export default function Header() {
             <Camera className="size-5" aria-hidden="true" />
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="text-sm uppercase tracking-wider text-foreground/70">AI</span>
-            <span className="text-base font-semibold text-foreground">Fashion Prompt Generator</span>
+            <span className="text-sm uppercase tracking-wider text-foreground/70">
+              AI
+            </span>
+            <span className="text-base font-semibold text-foreground">
+              Fashion Prompt Generator
+            </span>
           </div>
         </Link>
         <nav className="hidden md:flex items-center gap-1">

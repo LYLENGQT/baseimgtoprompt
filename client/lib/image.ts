@@ -8,7 +8,11 @@ export async function compressImage(
   const dataUrl = await readAsDataURL(file);
   const img = await loadImage(dataUrl);
 
-  const { width, height } = getConstrainedSize(img.width, img.height, maxDimension);
+  const { width, height } = getConstrainedSize(
+    img.width,
+    img.height,
+    maxDimension,
+  );
 
   const canvas = document.createElement("canvas");
   canvas.width = width;

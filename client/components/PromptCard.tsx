@@ -19,11 +19,20 @@ export default function PromptCard({ title, prompt }: PromptCardProps) {
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-foreground">{title}</h3>
-        <Button size="sm" variant="outline" onClick={handleCopy} aria-label={`Copy ${title}`}>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={handleCopy}
+          aria-label={`Copy ${title}`}
+        >
           <Copy className="mr-2" /> Copy
         </Button>
       </div>
-      <Textarea value={prompt} readOnly className="min-h-32 text-sm leading-relaxed" />
+      <Textarea
+        value={prompt}
+        readOnly
+        className="min-h-32 text-sm leading-relaxed"
+      />
       <div className="text-xs text-foreground/60">{chars} characters</div>
     </div>
   );

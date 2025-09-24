@@ -36,6 +36,8 @@ export const handleProxyWebhook: RequestHandler = (req, res) => {
     })
     .catch((err) => {
       console.error("Proxy error:", err);
-      res.status(502).json({ error: "Proxy request failed", message: String(err) });
+      res
+        .status(502)
+        .json({ error: "Proxy request failed", message: String(err) });
     });
 };
