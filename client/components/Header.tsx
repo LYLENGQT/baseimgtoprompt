@@ -1,9 +1,8 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Camera } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Header() {
-  const location = useLocation();
   const navLink = ({ to, label }: { to: string; label: string }) => (
     <NavLink
       to={to}
